@@ -36,23 +36,46 @@ JSON с данными о машине:
 ## Скрипты
 
 ### `get_engine_specs.py` - **ОСНОВНОЙ СКРИПТ** ⭐
-Получает только ключевые характеристики автомобиля:
-- **Тип двигателя** (2.0T 252马力 L4)
-- **Коробка передач** (8挡手自一体)
-- **Мощность в л.с.** (252)
+Класс CarSpecsRetriever с типизированными данными (TypedDict)
 
+**Возвращает структурированный объект CarInfo:**
+```python
+CarInfo = TypedDict('CarInfo', {
+    'car_name': str,      # Название автомобиля
+    'price': float,       # Цена в 万 RMB
+    'engine_size': int,   # Объем двигателя в см³
+    'engine_type': str,   # Тип двигателя
+    'mileage': int,       # Пробег в км
+    'year': int,          # Год выпуска
+    'month': int,         # Месяц выпуска
+    'transmission': str   # Тип коробки передач
+})
+```
+
+**Использование:**
+```python
+from get_engine_specs import CarSpecsRetriever
+
+car_info = CarSpecsRetriever.get_car_info(57369943)
+if car_info:
+    print(f"Машина: {car_info['car_name']}")
+    print(f"Двигатель: {car_info['engine_type']}")
+    print(f"Объем: {car_info['engine_size']} см³")
+```
+
+**Вывод скрипта:**
 ```bash
 python3 get_engine_specs.py 57369943
 ```
 
-**Вывод:**
 ```
-🚗 МАШИНА: 宝马5系 2019款 530Li 领先型 豪华套装
-🔧 ДВИГАТЕЛЬ:
-  • Тип: 2.0T 252马力 L4
-  • Мощность: 252 л.с.
-⚙️ КОРОБКА ПЕРЕДАЧ:
-  • Тип: 8挡手自一体
+🚗 宝马5系 2019款 530Li 领先型 豪华套装
+💰 Цена: 15.6万 RMB
+🔧 Двигатель: 2.0T 252马力 L4
+📏 Объем: 1998 см³
+⚙️ Коробка: 8挡手自一体
+🛣️ Пробег: 157000 км
+📅 Год/месяц: 2019.09
 ```
 
 ### `get_full_car_info.py` - ПОЛНАЯ ИНФОРМАЦИЯ
